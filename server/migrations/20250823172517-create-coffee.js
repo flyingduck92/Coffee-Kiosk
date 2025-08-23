@@ -5,29 +5,35 @@ module.exports = {
     await queryInterface.createTable('Coffees', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.literal('uuid_generate_v4()')
       },
       name: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      description: {
-        type: Sequelize.TEXT
-      },
       price: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      imageUrl: {
-        type: Sequelize.STRING
-      },
-      createdBy: {
+      stock: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false
+      },
+      TypeId: {
+        type: Sequelize.UUID,
         references: {
-          model: 'Users',
+          model: 'Types',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+      ProfileId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'Profiles',
           key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -42,10 +48,6 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-
-    // add indexes
-    await queryInterface.addIndex('Coffees', ['name'])
-    await queryInterface.addIndex('Coffees', ['createdBy'])
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Coffees')

@@ -5,27 +5,18 @@ module.exports = {
     await queryInterface.createTable('Users', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.literal('uuid_generate_v4()')
       },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true
       },
-      name: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       password: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      role: {
-        type: Sequelize.ENUM('customer', 'staff', 'manager', 'admin'),
-        allowNull: false,
-        defaultValue: 'customer'
       },
       createdAt: {
         allowNull: false,
@@ -35,10 +26,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }, {
+      indexes: [
+        { unique: true, fields: ['email'] }
+      ]
     })
-
-    // add index on email
-    await queryInterface.addIndex('Users', ['email'], { unique: true })
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Users')

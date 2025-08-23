@@ -10,15 +10,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Coffee.belongsTo(models.User, { foreignKey: 'createdBy' })
+      Coffee.belongsTo(models.Profile, { foreignKey: 'ProfileId', onDelete: 'SET NULL', onUpdate: 'CASCADE' })
+      Coffee.belongsTo(models.Type, { foreignKey: 'TypeId', onDelete: 'SET NULL', onUpdate: 'CASCADE' })
     }
   }
   Coffee.init({
     name: DataTypes.STRING,
-    description: DataTypes.TEXT,
     price: DataTypes.INTEGER,
-    imageUrl: DataTypes.STRING,
-    createdBy: DataTypes.INTEGER
+    stock: DataTypes.INTEGER,
+    TypeId: DataTypes.UUID,
+    ProfileId: DataTypes.UUID
   }, {
     sequelize,
     modelName: 'Coffee',

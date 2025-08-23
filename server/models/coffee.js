@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Coffee.init({
     name: DataTypes.STRING,
+    imageUrl: DataTypes.STRING,
     price: DataTypes.INTEGER,
     stock: DataTypes.INTEGER,
     TypeId: DataTypes.UUID,

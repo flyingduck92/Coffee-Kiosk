@@ -14,6 +14,10 @@ module.exports = {
         allowNull: true,
         unique: true
       },
+      imageUrl: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       fullname: {
         type: Sequelize.STRING,
         allowNull: true
